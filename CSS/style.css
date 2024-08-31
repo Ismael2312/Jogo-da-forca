@@ -114,3 +114,45 @@ body {
     0% { transform: translateY(0) rotate(0deg); opacity: 1; }
     100% { transform: translateY(100vh) rotate(360deg); opacity: 0; }
 }
+/* Cores ao passar o mouse */
+.final-buttons button:hover {
+    transition: background-color 0.3s ease;
+}
+
+.final-buttons button.sim:hover {
+    background-color: green;
+    color: white;
+}
+
+.final-buttons button.nao:hover {
+    background-color: red;
+    color: white;
+}
+
+/* Cores após o clique */
+.final-buttons button.sim.clicked {
+    background-color: green;
+    color: white;
+}
+
+.final-buttons button.nao.clicked {
+    background-color: red;
+    color: white;
+}
+
+/* Animação de rosto nervoso */
+.nervous-face {
+    animation: nervousShake 0.5s ease;
+}
+
+@keyframes nervousShake {
+    0%, 100% { transform: translateX(0); }
+    20%, 60% { transform: translateX(-10px); }
+    40%, 80% { transform: translateX(10px); }
+}
+#word {
+    font-size: 24px;
+    letter-spacing: 10px; /* Espaçamento entre letras */
+    margin-bottom: 20px;
+    white-space: pre; /* Mantém os espaços entre palavras */
+}

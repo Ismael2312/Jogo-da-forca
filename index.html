@@ -159,43 +159,35 @@ function createLetterButtons() {
     });
 }
 
-function showFinalButtons() {
-    const buttonsContainer = document.createElement("div");
-    buttonsContainer.className = "final-buttons";
-
-    const yesButton = document.createElement("button");
-    yesButton.textContent = "Sim";
-    yesButton.addEventListener("click", handleFirstYesClick);
-
-    const noButton = document.createElement("button");
-    noButton.textContent = "Não";
-    noButton.addEventListener("click", handleNoClick);
-
-    buttonsContainer.appendChild(yesButton);
-    buttonsContainer.appendChild(noButton);
-
-    resultDisplay.appendChild(buttonsContainer);
-}
-
 function handleFirstYesClick() {
     resultDisplay.textContent = "Tem certeza disso?";
     resultDisplay.innerHTML = "Tem certeza disso? (⁠;⁠ŏ⁠﹏⁠ŏ⁠)";
+    
+    // Adiciona a classe nervous-face para animação de rosto nervoso
+    resultDisplay.classList.add("nervous-face");
 
     const buttonsContainer = document.createElement("div");
     buttonsContainer.className = "final-buttons";
 
     const yesButton = document.createElement("button");
     yesButton.textContent = "Sim";
+    yesButton.className = "sim";  // Adiciona a classe 'sim'
     yesButton.addEventListener("click", showCelebration);
 
     const noButton = document.createElement("button");
     noButton.textContent = "Não";
+    noButton.className = "nao";  // Adiciona a classe 'nao'
     noButton.addEventListener("click", handleNoClick);
 
     buttonsContainer.appendChild(yesButton);
     buttonsContainer.appendChild(noButton);
 
     resultDisplay.appendChild(buttonsContainer);
+
+    // Remove a classe nervous-face após a animação terminar
+    setTimeout(() => {
+        resultDisplay.classList.remove("nervous-face");
+    }, 500);
 }
 
 function handleNoClick() {
@@ -203,16 +195,34 @@ function handleNoClick() {
     resultDisplay.innerHTML = ""; 
 }
 
-function showRetryButton() {
-    const retryButton = document.createElement("button");
-    retryButton.textContent = "Tente Novamente";
-    retryButton.className = "final-buttons";
-    retryButton.addEventListener("click", function () {
-        location.reload();
-    });
+function showFinalButtons() {
+    const buttonsContainer = document.createElement("div");
+    buttonsContainer.className = "final-buttons";
 
-    resultDisplay.appendChild(retryButton);
+    const yesButton = document.createElement("button");
+    yesButton.textContent = "Sim";
+    yesButton.className = "sim";  // Adiciona a classe 'sim'
+    yesButton.addEventListener("click", handleFirstYesClick);
+
+    const noButton = document.createElement("button");
+    noButton.textContent = "Não";
+    noButton.className = "nao";  // Adiciona a classe 'nao'
+    noButton.addEventListener("click", handleNoClick);
+
+    buttonsContainer.appendChild(yesButton);
+    buttonsContainer.appendChild(noButton);
+
+    resultDisplay.appendChild(buttonsContainer);
 }
+
+// Adiciona uma função genérica para aplicar estilos após clique
+document.addEventListener("click", function(event) {
+    if (event.target.classList.contains("sim")) {
+        event.target.classList.add("clicked");
+    } else if (event.target.classList.contains("nao")) {
+        event.target.classList.add("clicked");
+    }
+});
 
 function createConfetti() {
     const confettiContainer = document.getElementById("confetti-container");
@@ -249,6 +259,15 @@ function initGame() {
     updateWordDisplay();
     createLetterButtons();
 }
+function updateWordDisplay() {
+    let display = "QUER NAMORAR COMIGO?".split("").map(letter =>
+        letter === " " || specialCharacters.includes(letter) ? letter : (guessedLetters.includes(letter) ? letter : "_")
+    ).join(""); // Remove espaços adicionais entre as letras
+
+    // Adiciona um espaço entre cada letra, mas preserva os espaços entre palavras
+    wordDisplay.innerHTML = display.replace(/_/g, "_ ").replace(/ /g, "  ");
+}
+
 
 initGame();
 
